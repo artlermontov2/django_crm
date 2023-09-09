@@ -1,0 +1,54 @@
+{% extends 'team/base.html' %}
+{% block content %}
+
+  <table class="table table-striped table-hover table-bordered">
+    <thead class="table-dark">
+      <tr>
+        <th scope="col">Имя</th>
+        <th scope="col">Телефон</th>
+        <th scope="col">Email</th>
+        <th scope="col">Комментарии</th>
+        <th scope="col">Сотрудник</th>
+        <th scope="col">Дата</th>
+        <th scope="col">ID</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% if page_obj %}
+      {% for client in page_obj %}
+        <tr>
+        <td>{{ client.name }}</td>
+        <td>{{ client.phone }}</td>
+        <td>{{ client.email }}</td>
+        <td style="word-wrap: break-word">{{ client.description|truncatechars:40 }}</td>
+        <td>{{ client.worker }}</td>
+        <td>{{ client.data}}</td>
+        <td>
+          <a href="{% url 'clients:view_client' client.id %}">{{ client.id }}</a>
+        </td>
+        </tr>
+      {% endfor %}
+      <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page=1">&laquo; Первая</a>
+                <a href="?page={{ page_obj.previous_page_number }}">Предыдущая</a>
+            {% endif %}
+    
+            <span class="current">
+                Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}
+            </span>
+    
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">Следующая</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">Последняя &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+      {% else %}
+      <p>Записей нет</p>
+    {% endif %}
+    </tbody>
+  </table>
+
+{% endblock %}

@@ -1,0 +1,40 @@
+version: "3.8"
+
+services:
+  crm_postgres:
+    image: postgres
+    container_name: postgres_crm
+    restart: always
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    env_file:
+      - .env
+
+  crm:
+    build: .
+    command: gunicorn djangocrm.wsgi:application --bind 0.0.0.0:8000 
+    restart: always
+    depends_on: 
+      - crm_postgres
+    env_file:
+      - .env
+    ports:
+      - '8000:8000'
+    
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - '8889:8080'
+
+  nginx:
+    image: nginx
+    ports:
+      - 80:80
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - crm
+
+volumes:
+  postgres_data:

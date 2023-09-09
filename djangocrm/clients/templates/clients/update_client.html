@@ -1,0 +1,17 @@
+{% extends 'team/base.html' %}
+
+{% block content %}
+<div class="col-md-6 offset-md-3">
+	<h1>Редактирование</h1>
+	<br/>
+	<form method="POST" novalidate>
+    {% csrf_token %}
+    {{ form.as_p }}
+    <br/>
+      <button type="submit" class="btn btn-secondary" value="Save">Сохранить</button>
+      <a href="{% url 'home' %}" class="btn btn-secondary">Назад</a>   
+  </form>
+  <br/>
+  <br/>
+</div>   
+{% endblock %}
