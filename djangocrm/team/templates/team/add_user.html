@@ -8,8 +8,8 @@
     {% csrf_token %}
     {{ form.as_p }}   
     <br/>
-      <button type="submit" class="btn btn-secondary">Добавить</button>
-       <a href="{% url 'home' %}" class="btn btn-secondary">Назад</a>   
-    </form>    
+    <button type="submit" class="btn btn-secondary">Добавить</button>
+    <a href="{% url 'home' %}" class="btn btn-secondary">Назад</a>   
+  </form>    
 </div>   
 {% endblock %}

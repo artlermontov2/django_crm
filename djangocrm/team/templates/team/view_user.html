@@ -1,22 +1,6 @@
 {% extends 'team/base.html' %}
 {% block content %}
-<div class="input-group mb-3">
-  <select id="user-select" class="form-select" aria-label="Default select example">
-    <option selected>Выберите записи ...</option>
-    {% for worker in workers %}
-    <option value="{{ worker.id }}">{{ worker }}</option>
-    {% endfor %}
-  </select>
-  <script>
-    document.getElementById('user-select').addEventListener('change', function() {
-        var chapterId = this.value;
-        if (chapterId) {
-            var url = "{% url 'view_user_clients' 0 %}".replace('0', chapterId);
-            window.location.href = url;
-        }
-    });
-    </script>
-</div>
+
   <table class="table table-striped table-hover table-bordered">
     <thead class="table-dark">
       <tr>

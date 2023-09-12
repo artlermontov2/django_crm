@@ -5,6 +5,7 @@ from django.core.paginator import Paginator
 from django.contrib import messages
 from .forms import SignUpForm, AddUserForm, LoginUserForm
 from clients.models import Client
+from team.models import UserModel
 
 
 def singin(request):
@@ -22,6 +23,7 @@ def singin(request):
     else:
         form = LoginUserForm()
     return render(request, 'team/login.html', {'form': form})
+
 
 def registration_team(request):
     if request.method == 'POST':
@@ -42,6 +44,7 @@ def registration_team(request):
         form = SignUpForm()
     return render(request, 'team/registration.html', {'form': form})
 
+
 @login_required
 def home(request):
     clients = Client.objects.filter(user=request.user).order_by('-data')
@@ -49,7 +52,10 @@ def home(request):
 
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-    return render(request, 'team/home.html', {'page_obj': page_obj})
+
+    workers = UserModel.objects.filter(user=request.user)
+    return render(request, 'team/home.html', {'page_obj': page_obj, 'workers': workers})
+
 
 @login_required
 def add_user(request):
@@ -64,6 +70,17 @@ def add_user(request):
     else:
         form = AddUserForm()
     return render(request, 'team/add_user.html', {'form': form})
+
+
+def view_user_clients(request, id):
+    user_name = UserModel.objects.get(id=id, user=request.user)
+    workers = Client.objects.filter(worker=user_name.first_name)
+
+    paginator = Paginator(workers, 25)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'team/view_user.html', {'page_obj': page_obj})
+
 
 def log_out(request):
     logout(request)
