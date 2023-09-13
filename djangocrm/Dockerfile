@@ -5,7 +5,7 @@ ENV PYTHONUNBUFFERED 1
 
 RUN pip install --upgrade pip
 
-RUN apt update && apt -qy install openssh-client vim flake8 nano
+RUN apt update && apt -qy install openssh-client flake8 nano
 
 WORKDIR /djcrm
 

@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from .models import Client
 from .forms import AddClientForm
-from django.contrib import messages
 
 
 @login_required
@@ -33,7 +33,6 @@ def update_info(request, pk):
     if request.method == 'GET':
         context = {'form': AddClientForm(instance=client, user=request.user), 'pk': pk}
         return render(request, 'clients/update_client.html', context)
-    
     if request.method == 'POST':
         form = AddClientForm(request.POST, instance=client, user=request.user)
         if form.is_valid():
@@ -42,8 +41,7 @@ def update_info(request, pk):
             new_client.save()
             messages.success(request, 'Запись изменена!')
             return redirect('home')
-        
-    return render(request, 'clients/update_client.html', {'form': form})  
+    return render(request, 'clients/update_client.html', {'form': form})
 
 
 @login_required   
@@ -52,8 +50,8 @@ def del_client(request, pk):
     if request.method == 'POST':
         client.delete()
         messages.success(request, 'Запись удалена!')
-        return redirect('home')   
-        
+        return redirect('home')
+
 
 def send_message(request, id):
     client = Client.objects.get(id=id, user=request.user)
@@ -62,4 +60,3 @@ def send_message(request, id):
         if i in phone_number:
             phone_number = phone_number.replace(i, '')
     return redirect(f'https://web.whatsapp.com/send?phone={phone_number}')
-

@@ -39,7 +39,6 @@ def registration_team(request):
             login(request, user)
             messages.success(request, 'Вы успешно зарегистированы!')
             return redirect('home')
-        
     else:
         form = SignUpForm()
     return render(request, 'team/registration.html', {'form': form})
