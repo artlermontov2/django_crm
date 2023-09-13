@@ -53,7 +53,9 @@ def home(request):
     page_obj = paginator.get_page(page_number)
 
     workers = UserModel.objects.filter(user=request.user)
-    return render(request, 'team/home.html', {'page_obj': page_obj, 'workers': workers})
+    return render(
+        request, 'team/home.html', {'page_obj': page_obj, 'workers': workers}
+    )
 
 
 @login_required

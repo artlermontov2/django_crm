@@ -31,7 +31,9 @@ def update_info(request, pk):
     client = get_object_or_404(Client, pk=pk, user=request.user)
 
     if request.method == 'GET':
-        context = {'form': AddClientForm(instance=client, user=request.user), 'pk': pk}
+        context = {
+            'form': AddClientForm(instance=client, user=request.user), 'pk': pk
+        }
         return render(request, 'clients/update_client.html', context)
     if request.method == 'POST':
         form = AddClientForm(request.POST, instance=client, user=request.user)
@@ -44,7 +46,7 @@ def update_info(request, pk):
     return render(request, 'clients/update_client.html', {'form': form})
 
 
-@login_required   
+@login_required
 def del_client(request, pk):
     client = Client.objects.filter(pk=pk, user=request.user)
     if request.method == 'POST':
